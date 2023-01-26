@@ -46,25 +46,6 @@ private:
   size_t count_;
 };
 
-// using std::placeholders::_1;
-
-// class ViconSubscriber : public rclcpp::Node
-// {
-// public:
-//   ViconSubscriber()
-//   : Node("vicon_subscriber")
-//   {
-//     subscription_ = this->create_subscription<st>(
-//       "/vicon/B04/B04", 10, std::bind(&ViconSubscriber::topic_callback, this, _1));
-//   }
-
-// private:
-//   void topic_callback(const geometry_msgs::msg::TransformStamped msg) const
-//   {
-//     printf("I heard: '%lf'",msg.transform.translation.x);
-//   }
-//   rclcpp::Subscription<geometry_msgs::msg::TransformStamped>::SharedPtr subscription_;
-// };
 
 
 // ! TODO: Make sure this is being run ... ros spin below
