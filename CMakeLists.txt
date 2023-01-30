@@ -21,7 +21,7 @@ find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
 
-add_executable(velocity-controller src/velocity-controller.cpp)
+add_executable(velocity-controller src/velocity-controller.cpp src/MiniPID.cpp)
 target_include_directories(velocity-controller PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>)

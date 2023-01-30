@@ -46,10 +46,11 @@ private:
   size_t count_;
 };
 
-
-
-// ! TODO: Make sure this is being run ... ros spin below
 using std::placeholders::_1;
+
+#include "../include/tb-controller/MiniPID.h"
+
+MiniPID pid(1,0,0);
 
 class MinimalSubscriber : public rclcpp::Node
 {
@@ -70,9 +71,18 @@ class MinimalSubscriber : public rclcpp::Node
       double y = msg->transform.translation.y;
       double z = msg->transform.translation.z;
 
+      double th = msg->transform.rotation.z;
+
+
       // double pose[3] = {x, y, z};
       std::cout << "x: "<< x << " y: " << y << "z: " << z << std::endl;
+
       printf("Heard a message");
+
+      // PID
+      double target_th = 0.6; 
+      double output_th=pid.getOutput(th,target_th);
+      std::cout << "th: " << th << " output_th: " << output_th << " target_th: " << target_th << std::endl;
     }
     rclcpp::Subscription<geometry_msgs::msg::TransformStamped>::SharedPtr subscription_;
 };
