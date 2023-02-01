@@ -1,7 +1,7 @@
 #include <cstdio>
 #include <chrono>
 #include <memory>
-
+#include <vector>
 #include "rclcpp/rclcpp.hpp"
 #include "std_msgs/msg/string.hpp"
 #include "geometry_msgs/msg/twist.hpp"
@@ -9,6 +9,10 @@
 #include "geometry_msgs/msg/transform_stamped.hpp"
 #include "geometry_msgs/msg/transform.hpp"
 #include "std_msgs/msg/string.hpp"
+
+
+#include "../include/tb-controller/MiniPID.h"
+#include "../include/tb-controller/utils.h"
 
 using namespace std::chrono_literals;
 
@@ -46,9 +50,6 @@ private:
   size_t count_;
 };
 
-using std::placeholders::_1;
-
-#include "../include/tb-controller/MiniPID.h"
 
 MiniPID pid(1,0,0);
 
@@ -59,7 +60,7 @@ class MinimalSubscriber : public rclcpp::Node
     : Node("minimal_subscriber")
     {
       subscription_ = this->create_subscription<geometry_msgs::msg::TransformStamped>(
-      "topic", 10, std::bind(&MinimalSubscriber::topic_callback, this, _1));
+      "topic", 10, std::bind(&MinimalSubscriber::topic_callback, this, std::placeholders::_1));
     }
 
   private:
@@ -87,10 +88,14 @@ class MinimalSubscriber : public rclcpp::Node
     rclcpp::Subscription<geometry_msgs::msg::TransformStamped>::SharedPtr subscription_;
 };
 
+
+
 int main(int argc, char ** argv)
 {
 
-  printf("hello world tb-controller package\n");
+  printf("tb-controller package\n");
+  std::vector<utils::Pose2> X_ref_traj;
+  X_ref_traj = utils::X_ref(5.0, 0.0, 0.0);
   rclcpp::init(argc, argv);
   rclcpp::spin(std::make_shared<VelocityPublisher>());
   rclcpp::spin(std::make_shared<MinimalSubscriber>()); // ? Not sure if this works
