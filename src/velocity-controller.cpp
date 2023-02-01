@@ -51,11 +51,16 @@ private:
 };
 
 
-MiniPID pid(1,0,0);
+MiniPID pid_x(1,0,0);
+MiniPID pid_y(1,0,0);
 
 class MinimalSubscriber : public rclcpp::Node
 {
   public:
+  double global_radius = 5.0;
+  double local_radius = 0.2;
+  double origin_x = 0.0;
+  double origin_y = 0.0;
     MinimalSubscriber()
     : Node("minimal_subscriber")
     {
@@ -75,13 +80,18 @@ class MinimalSubscriber : public rclcpp::Node
       double th = msg->transform.rotation.z;
 
 
-      // double pose[3] = {x, y, z};
       std::cout << "x: "<< x << " y: " << y << "z: " << z << std::endl;
-
-      printf("Heard a message");
+      // Find next waypoint and move to that waypoint
+      
+      // 1 = major circle
+      // 2 = minor circle
+      std::vector<utils::Pose2> intersections = utils::circle_intersection(0.0,0.0, global_radius, x, y, local_radius);
+      utils::Pose2 next_waypoint = utils::find_correct_intersection(intersections[0], intersections[1], x, y);
 
       // PID
-      double target_th = 0.6; 
+      double target_x = next_waypoint.x;
+      double target_y = next_waypoint.y;
+
       double output_th=pid.getOutput(th,target_th);
       std::cout << "th: " << th << " output_th: " << output_th << " target_th: " << target_th << std::endl;
     }
