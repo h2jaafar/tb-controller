@@ -50,9 +50,9 @@ std::vector<Pose2> X_ref(double r, double o_x, double o_y)
 std::vector<Pose2> circle_intersection(double x1, double y1, double r1, double x2, double y2, double r2)
 {
     // https://lucidar.me/en/mathematics/how-to-calculate-the-intersection-points-of-two-circles/#intersection-points
-    double d = sqrt(pow((x2-x1),2) + pow((y2-y1)),2);
+    double d = sqrt(pow((x2-x1),2) + pow((y2-y1),2));
     double a = (pow(r1,2) - pow(r2, 2) + pow(d,2)) / (2*d);
-    double b = (pow(r2,2) - pow(r2, 2) + pow(d,2)) / (2*d);
+    // double b = (pow(r2,2) - pow(r2, 2) + pow(d,2)) / (2*d);
     double h = sqrt(pow(r1, 2) - pow(a,2));
 
     double x5 = x1 + (a/d)*(x2 - x1);
@@ -60,11 +60,11 @@ std::vector<Pose2> circle_intersection(double x1, double y1, double r1, double x
 
     Pose2 c1;
     Pose2 c2;
-    double c1.x = x5 - (h*(y2 - y1)/d);
-    double c1.y = y5 + (h*(x2 - x1)/d);
+    c1.x = x5 - (h*(y2 - y1)/d);
+    c1.y = y5 + (h*(x2 - x1)/d);
 
-    double c2.x = x5 + (h*(y2 - y1)/d);
-    double c2.y = y5 - (h*(x2 - x1)/d);
+    c2.x = x5 + (h*(y2 - y1)/d);
+    c2.y = y5 - (h*(x2 - x1)/d);
 
     std::vector<Pose2> intersection_points;
     intersection_points.push_back(c1);
@@ -92,12 +92,11 @@ Pose2 find_correct_intersection(Pose2 c1, Pose2 c2, double x2, double y2)
         {return c1;}
         else{ return c2;}
     }
-    else if (theta > 180)
+    else
     {   // take right most point, i.e biggest x
         if(c1.x > c2.x)
         {return c1;}
         else{return c2;}
     }
-    else{std::cout << "Error in finding correct point"}
 }
 }

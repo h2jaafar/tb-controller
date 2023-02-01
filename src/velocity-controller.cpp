@@ -77,7 +77,7 @@ class MinimalSubscriber : public rclcpp::Node
       double y = msg->transform.translation.y;
       double z = msg->transform.translation.z;
 
-      double th = msg->transform.rotation.z;
+      // double th = msg->transform.rotation.z;
 
 
       std::cout << "x: "<< x << " y: " << y << "z: " << z << std::endl;
@@ -92,8 +92,11 @@ class MinimalSubscriber : public rclcpp::Node
       double target_x = next_waypoint.x;
       double target_y = next_waypoint.y;
 
-      double output_th=pid.getOutput(th,target_th);
-      std::cout << "th: " << th << " output_th: " << output_th << " target_th: " << target_th << std::endl;
+      // ! TODO: figure out how to setup PID's ... which one takes which inputs etc.
+      double output_th=pid_x.getOutput(x,target_x);
+      double output_th_2=pid_y.getOutput(y,target_y);
+
+      // std::cout << "th: " << th << " output_th: " << output_th << " target_th: " << target_th << std::endl;
     }
     rclcpp::Subscription<geometry_msgs::msg::TransformStamped>::SharedPtr subscription_;
 };
