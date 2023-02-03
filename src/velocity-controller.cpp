@@ -58,11 +58,13 @@ class VelocityController : public rclcpp::Node
       // 2 = minor circle
       std::vector<utils::Pose2> intersections = utils::circle_intersection(0.0,0.0, global_radius, x, y, local_radius);
       utils::Pose2 next_waypoint = utils::find_correct_intersection(intersections[0], intersections[1], x, y);
-
+      utils::Pose2 current_pos;
+      current_pos.x = x;
+      current_pos.y = y;
       // PID
-      double target_x = next_waypoint.x;
-
-      output=pid.getOutput(x,target_x);
+      double input = utils::calculateDistance(next_waypoint,current_pos);
+      double target = 0; // we want the target distance from current pos to next waypoint to be zero, i.e, we are a tthe next waypoint
+      output=pid.getOutput(input,target);
 
     }
 

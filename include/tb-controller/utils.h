@@ -99,4 +99,14 @@ Pose2 find_correct_intersection(Pose2 c1, Pose2 c2, double x2, double y2)
         else{return c2;}
     }
 }
+
+
+/**
+ * @brief calculates euclidean distance between two points
+*/
+double calculateDistance(Pose2 c_curr, Pose2 c_ref)
+{
+    double distance = sqrt(pow(c_ref.x - c_curr.x,2) + pow(c_ref.y - c_curr.y,2));
+    return distance;
+}
 }
