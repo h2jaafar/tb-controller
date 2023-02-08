@@ -16,36 +16,12 @@ Created with
 
 We pull messages from [vicon_bridge](https://github.com/ethz-asl/vicon_bridge) package, and convert it to ros2 messages. This can be done in a docker. 
 
-### Instructions for Docker setup
-```
-sudo docker run -it osrf/ros:noetic-desktop-full
-source ros_entrypoint.sh
-cd ~/
-mkdir -p dev_ws/src
-cd ./dev_ws/src
-sudo apt install vim git
-git clone https://github.com/ethz-asl/vicon_bridge.git
-vim vicon_bridge/launch/vicon.launch #change ip to: 192.168.0.254:801 depending on vicon pc ip 
-cd ../
-catkin_make -DCMAKE_BUILD_TYPE=Release
-```
-
-**to save docker**
-docker commit dockers-app-1 ros-vicon:version3
-docker save -o ros-vicon-v3.tar ros-vicon:version3
-
-**to run vicon bridge**
-```
-docker exec -it dockers-app-1 bash
-source ros_entrypoint.sh
-cd ~/dev_ws/
-source devel/setup.bash
-roslaunch vicon_bridge vicon.launch
-```
 
 ## [ROS2/ROS1 bridge](https://github.com/ros2/ros1_bridge)
 - The computer which accomplishes the bridging must have both ROS2 and ROS1 installed.
 Please ensure that ROS2 = foxy, and ROS1 = noetic 
+
+See following [tutorial](https://industrial-training-master.readthedocs.io/en/melodic/_source/session7/ROS1-ROS2-bridge.html)
 
 Run the following
 ```

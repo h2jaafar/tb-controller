@@ -10,6 +10,11 @@
 #include "geometry_msgs/msg/transform.hpp"
 #include "std_msgs/msg/string.hpp"
 
+// #include "tf2_ros/transform_listener.h"
+#include "tf2_msgs/msg/TFMessage.hpp"
+
+
+
 
 #include "../include/tb-controller/MiniPID.h"
 
@@ -32,7 +37,7 @@ class VelocityController : public rclcpp::Node
     : Node("velocity_controller")
     {
       subscription_ = this->create_subscription<geometry_msgs::msg::TransformStamped>(
-      "topic", 10, std::bind(&VelocityController::topic_callback, this, std::placeholders::_1));
+      "vicon/B01/B01", 10, std::bind(&VelocityController::topic_callback, this, std::placeholders::_1));
 
     publisher_ = this->create_publisher<geometry_msgs::msg::Twist>("cmd_vel", 10);
     timer_ = this->create_wall_timer(
@@ -40,7 +45,7 @@ class VelocityController : public rclcpp::Node
     }
 
   private:
-    double output=0.0;
+    double output=0.1;
     void topic_callback(const geometry_msgs::msg::TransformStamped::SharedPtr msg)
     {
 

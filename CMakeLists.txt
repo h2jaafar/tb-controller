@@ -30,6 +30,7 @@ ament_target_dependencies(
   "rclcpp"
   "std_msgs"
   "geometry_msgs"
+  "tf2_msgs"
 )
 
 install(TARGETS velocity-controller
