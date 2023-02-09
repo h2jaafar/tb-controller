@@ -1,3 +1,4 @@
+#pragma once
 #ifndef MINIPID_H
 #define MINIPID_H
 

@@ -10,8 +10,8 @@
 #include "geometry_msgs/msg/transform.hpp"
 #include "std_msgs/msg/string.hpp"
 
-// #include "tf2_ros/transform_listener.h"
-#include "tf2_msgs/msg/TFMessage.hpp"
+// #include "tf2_geometry_msgs/tf2_geometry_msgs.h"
+#include "tf2_msgs/msg/tf_message.hpp"
 
 
 
@@ -35,9 +35,9 @@ class VelocityController : public rclcpp::Node
 
     VelocityController()
     : Node("velocity_controller")
-    {
+    { //! Need to fix subscriber type...its a bit more complex since they are different messages each time. See TF listener online
       subscription_ = this->create_subscription<geometry_msgs::msg::TransformStamped>(
-      "vicon/B01/B01", 10, std::bind(&VelocityController::topic_callback, this, std::placeholders::_1));
+      "tf2", 10, std::bind(&VelocityController::topic_callback, this, std::placeholders::_1));
 
     publisher_ = this->create_publisher<geometry_msgs::msg::Twist>("cmd_vel", 10);
     timer_ = this->create_wall_timer(
